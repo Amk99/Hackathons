@@ -1,4 +1,5 @@
 from django.db import models
+from hackathon_api.models import Hackathon
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -62,8 +63,15 @@ class UserProfile(models.Model):
         on_delete=models.CASCADE,
         primary_key=True,
     )
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100,blank=True)
+    last_name = models.CharField(max_length=100,blank = True)
+    registered_hackathons = models.ManyToManyField(Hackathon, related_name='registered_users')
+
+    def register_hackathon(self, hackathon):
+        self.registered_hackathons.add(hackathon)
+
+    def is_registered_for_hackathon(self, hackathon):
+        return self.registered_hackathons.filter(id=hackathon.id).exists()
 
 
     def __str__(self):

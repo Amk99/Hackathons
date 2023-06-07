@@ -1,5 +1,4 @@
 from django.db import models
-
 # Create your models here.
 class Hackathon(models.Model):
     title = models.CharField(max_length=255)
@@ -11,6 +10,7 @@ class Hackathon(models.Model):
         ('file', 'File'),
         ('link', 'Link'),
     ]
+
     submission_type = models.CharField(max_length=10, choices=submission_types)
     start_datetime = models.DateTimeField()
     end_datetime = models.DateTimeField()
