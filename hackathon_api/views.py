@@ -53,7 +53,6 @@ class EnrolledHackathonListAPIView(generics.ListAPIView):
                 'id': hackathon.id,
                 'title': hackathon.title,
                 'description': hackathon.description,
-                # Add other fields you want to include
             }
             for hackathon in enrolled_hackathons
         ]
