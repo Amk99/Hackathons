@@ -35,7 +35,6 @@ class HackathonRegistrationAPIView(generics.GenericAPIView):
         if user_profile.is_registered_for_hackathon(hackathon):
             return Response({'message': 'User is already registered for the hackathon.'})
         
-        # Perform any additional validation or business logic before registering the user
         
         user_profile.register_hackathon(hackathon)
         
