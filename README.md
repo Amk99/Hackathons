@@ -39,3 +39,5 @@ Clone repo<br>
 cd to cloned repo<br>
 pip install -r requirements.txt<br>
 python manage.py runserver
+
+Improper commit messages will be fixed shortly :)
