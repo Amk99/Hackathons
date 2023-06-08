@@ -1,5 +1,5 @@
 from rest_framework import generics
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import authentication_classes, permission_classes
 from .models import Hackathon
 from .serializers import HackathonSerializer
 from rest_framework.permissions import AllowAny,IsAuthenticated
@@ -14,8 +14,8 @@ class HackathonListAPIView(generics.ListAPIView):
     queryset = Hackathon.objects.all()
     serializer_class = HackathonSerializer
 
-@authentication_classes([])
-@permission_classes([AllowAny])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class HackathonCreateAPIView(generics.CreateAPIView):
     queryset = Hackathon.objects.all()
     serializer_class = HackathonSerializer
@@ -40,3 +40,22 @@ class HackathonRegistrationAPIView(generics.GenericAPIView):
         user_profile.register_hackathon(hackathon)
         
         return Response({'message': 'User successfully registered for the hackathon.'})
+    
+
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class EnrolledHackathonListAPIView(generics.ListAPIView):
+    def list(self, request, *args, **kwargs):
+        user = request.user
+        enrolled_hackathons = user.userprofile.registered_hackathons.all()
+        hackathon_data = [
+            {
+                'id': hackathon.id,
+                'title': hackathon.title,
+                'description': hackathon.description,
+                # Add other fields you want to include
+            }
+            for hackathon in enrolled_hackathons
+        ]
+        return Response(hackathon_data)
